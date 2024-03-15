@@ -4,3 +4,4 @@ pymysql
 sqlalchemy
 alembic
 databases
+fastapi_pagination
