@@ -19,3 +19,16 @@ class UsersService:
         users_on_db = self.db_session.query(UsersModel)
         params = Params(page=page, size=size)
         return paginate(users_on_db, params=params)
+    
+    def delete_user(self, id: int):
+        user_model = self.db_session.query(UsersModel).filter_by(id=id).first()
+        if not user_model:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Usuário não encontrado!')
+        
+        self.db_session.delete(user_model)
+        self.db_session.commit()
+
+    def update_users(self, user: Users):
+        user_model = UsersModel(**user.dict())
+        self.db_session._update_impl(user_model)
+        self.db_session.commit()
