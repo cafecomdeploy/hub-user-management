@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from decouple import config as config_decouple
-from app.models.users import Base
+from app.models.models import Base
 
 
 # this is the Alembic Config object, which provides

@@ -2,13 +2,13 @@ from typing import List
 from fastapi import APIRouter, Depends, Response, status, Query
 from sqlalchemy.orm import Session
 from app.schemas.users import Users, UserOutput
-from app.controllers.deps import get_db_session
+from app.controllers.deps import get_db_session, auth
 from app.services.users import UsersService
 from fastapi_pagination import Page, add_pagination
 
 
 
-router = APIRouter(prefix='/users', tags=['Users'])
+router = APIRouter(prefix='/users', tags=['Users'], dependencies=[Depends(auth)])
 
 
 @router.post('/add', status_code=status.HTTP_201_CREATED, description="Add new user")
@@ -41,7 +41,7 @@ def delete_user(
 
     return Response(status_code=status.HTTP_200_OK)
 
-@router.put("/update/{item_id}", response_model=Users, description="Change user")
+@router.put("/update/{item_id}", response_model=Users, description="Alterar user")
 def update_user(
     user: Users,
     db_session: Session = Depends(get_db_session) # cria uma nova sessao com BD por injecao de dependencia

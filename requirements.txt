@@ -5,3 +5,6 @@ sqlalchemy
 alembic
 databases
 fastapi_pagination
+passlib
+python-jose
+python-multipart

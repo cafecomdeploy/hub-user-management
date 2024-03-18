@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.users import Users as UsersModel 
+from app.models.models import Users as UsersModel 
 from app.schemas.users import Users, UserOutput
 from fastapi.exceptions import HTTPException
 from fastapi import status
@@ -29,6 +29,22 @@ class UsersService:
         self.db_session.commit()
 
     def update_users(self, user: Users):
+        user_model =  self.db_session.query(user).filter_by(id=id).first()
+        if user_model is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Usuario não encontrado.')
+        
+        user_model.firstname  = user.firstname
+        user_model.lastname = user.lastname
+        user_model.date = user.date
+
+        self.db_session.add(user_model)
+        self.db_session.commit()
+
+
+
+
+
+
         user_model = UsersModel(**user.dict())
         self.db_session._update_impl(user_model)
         self.db_session.commit()
